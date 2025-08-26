@@ -26,12 +26,13 @@ int main(){
 
     
     print(arr);
+    cout << endl;
     
     cout << "\n----------------------------------------------" << endl;
-    
+
+    margeSort(arr, 0, size -1);    
     
     cout << "------------------  after  ------------------" << endl;
-    cout << endl;
 
     print(arr);
 
@@ -54,7 +55,7 @@ void margeSort(vector<int>& arr, int start, int end){
     
     int mid = (start + end) / 2;
 
-    margeSort(arr, start, end);
+    margeSort(arr, start, mid);
     margeSort(arr, mid +1, end);
     marge(arr, start, mid, end);
 
@@ -90,10 +91,14 @@ void marge(vector<int> & arr, int start, int mid, int end){
         temp.push_back(arr[right]);
         right++;
     }
-    
+
+    //  for (int i = 0; i < temp.size(); i++) {
+    //     arr[start + i] = temp[i];
+    // }
+
     for (int i = start; i <= end; i++)
     {
         arr[i] = temp[i - start];
     }
-
+    
 }
