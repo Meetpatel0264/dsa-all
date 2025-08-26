@@ -1,0 +1,95 @@
+#include <iostream> 
+#include <vector>
+
+using namespace std;
+
+void print(vector<int> &);
+void margeSort(vector<int> &, int, int);
+void marge(vector<int> &, int, int, int);
+
+int main(){
+    
+    int size;
+    
+    cout << "Enter The size of arr : ";
+    cin >> size;
+
+    vector<int> arr(size, 0);
+
+    for (int i = 0; i < size; i++)
+    {
+        cout << "Enter The Element : ";
+        cin >> arr[i];
+    }
+
+    cout << "------------------  Before  ------------------" << endl;
+
+    
+    print(arr);
+    
+    cout << "\n----------------------------------------------" << endl;
+    
+    
+    cout << "------------------  after  ------------------" << endl;
+    cout << endl;
+
+    print(arr);
+
+    cout << "\n----------------------------------------------" << endl;
+
+    return 0;
+}
+
+void print(vector<int>& arr){
+    for(int val : arr){
+        cout << val << " ";
+    }
+}
+
+void margeSort(vector<int>& arr, int start, int end){
+    if (start >= end)
+    {
+        return ;
+    }
+    
+    int mid = (start + end) / 2;
+
+    margeSort(arr, start, end);
+    margeSort(arr, mid +1, end);
+    marge(arr, start, mid, end);
+
+}
+
+void marge(vector<int> & arr, int start, int mid, int end){
+
+    int left = start;
+    int right = mid+1;
+    vector<int> temp;
+
+    while (left <= mid && right <= end)
+    {
+        if (arr[left] < arr[right])
+        {
+            temp.push_back(arr[left]);
+            left++;
+        } else{
+            temp.push_back(arr[right]);
+            right++;
+        }
+        
+    }
+    
+    while (left <= mid)
+    {
+        temp.push_back(arr[left]);
+        left++;
+    }
+
+    while (right <= end)
+    {
+        temp.push_back(arr[right]);
+        right++;
+    }
+    
+    
+}
