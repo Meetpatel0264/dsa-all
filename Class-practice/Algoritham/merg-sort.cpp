@@ -91,5 +91,9 @@ void marge(vector<int> & arr, int start, int mid, int end){
         right++;
     }
     
-    
+    for (int i = start; i <= end; i++)
+    {
+        arr[i] = temp[i - start];
+    }
+
 }
