@@ -1,0 +1,78 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void print(const vector<int>& arr);
+void mergeSort(vector<int>& arr, int start, int end);
+void merge(vector<int>& arr, int start, int mid, int end);
+
+int main() {
+    int size;
+    cout << "Enter the size of array: ";
+    cin >> size;
+
+    vector<int> arr(size);
+    for (int i = 0; i < size; i++) {
+        cout << "Enter element " << i+1 << ": ";
+        cin >> arr[i];
+    }
+
+    cout << "\n------------------ Before ------------------\n";
+    print(arr);
+
+    mergeSort(arr, 0, size - 1);
+
+    cout << "\n------------------ After ------------------\n";
+    print(arr);
+
+    return 0;
+}
+
+// Print array
+void print(const vector<int>& arr) {
+    for (int val : arr) {
+        cout << val << " ";
+    }
+    cout << endl;
+}
+
+// Recursive merge sort
+void mergeSort(vector<int>& arr, int start, int end) {
+    if (start >= end) return;
+
+    int mid = start + (end - start) / 2;
+
+    mergeSort(arr, start, mid);
+    mergeSort(arr, mid + 1, end);
+
+    merge(arr, start, mid, end);
+}
+
+// Merge function (optimized with pre-allocated temp array)
+void merge(vector<int>& arr, int start, int mid, int end) {
+    int n1 = mid - start + 1;
+    int n2 = end - mid;
+
+    // Temporary arrays
+    vector<int> left(n1);
+    vector<int> right(n2);
+
+    // Copy data
+    for (int i = 0; i < n1; i++) left[i] = arr[start + i];
+    for (int j = 0; j < n2; j++) right[j] = arr[mid + 1 + j];
+
+    // Merge temp arrays back into arr
+    int i = 0, j = 0, k = start;
+
+    while (i < n1 && j < n2) {
+        if (left[i] <= right[j]) {
+            arr[k++] = left[i++];
+        } else {
+            arr[k++] = right[j++];
+        }
+    }
+
+    // Copy remaining elements
+    while (i < n1) arr[k++] = left[i++];
+    while (j < n2) arr[k++] = right[j++];
+}
