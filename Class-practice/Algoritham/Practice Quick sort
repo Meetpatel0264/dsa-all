@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void print(vector<int>&);
+void quickSort(vector<int>&, int, int);
+int partition(vector<int>&, int, int);
+
+int main() {
+    int size;
+    cout << "Enter The size of arr : ";
+    cin >> size;
+
+    vector<int> arr(size, 0);
+
+    for (int i = 0; i < size; i++) {
+        cout << "Enter The Element : ";
+        cin >> arr[i];
+    }
+
+    cout << "------------------  Before  ------------------" << endl;
+    print(arr);
+    cout << "\n----------------------------------------------" << endl;
+
+    quickSort(arr, 0, size - 1);
+
+    cout << "------------------  After  ------------------" << endl;
+    print(arr);
+    cout << "\n----------------------------------------------" << endl;
+
+    return 0;
+}
+
+void print(vector<int>& arr) {
+    for (int val : arr) {
+        cout << val << " ";
+    }
+}
+
+void quickSort(vector<int>& arr, int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+
+        // Recursively sort left & right sub-arrays
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+int partition(vector<int>& arr, int low, int high) {
+    int pivot = arr[high]; // choosing last element as pivot
+    int i = low - 1;       // index of smaller element
+
+    for (int j = low; j < high; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+
+    swap(arr[i + 1], arr[high]);
+    return i + 1;
+}
