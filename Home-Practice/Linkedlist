@@ -1,0 +1,269 @@
+#include <iostream>
+
+using namespace std;
+
+class Node
+{
+public:
+    int data;
+    Node *next;
+
+    Node(int data)
+    {
+        this->data = data;
+        this->next = NULL;
+    }
+};
+
+class LinkedList {
+public:
+    Node *head;
+    int count;
+
+    LinkedList()
+    {
+        this->head = NULL;
+        this->count = 0;
+    }
+
+    void addStart(int data)
+    {
+        Node *newNode = new Node(data);
+
+        newNode->next = this->head;
+        this->head = newNode;
+        this->count++;
+
+        cout << "\n----------------------------------------------------\n";
+        cout << "New Node Added..." << endl;
+        cout << "----------------------------------------------------\n\n";
+    }
+
+    void display()
+    {
+
+        if(count <= 0){
+            cout << "\n----------------------------------------------------\n";
+            cout << "LinkedList is Empty..." << endl;
+            cout << "----------------------------------------------------\n\n";
+
+            return;
+        }
+        Node *temp = this->head;
+
+            cout << "\n----------------------------------------------------\n";
+        while (temp != NULL)
+        {
+            cout << temp->data << "->";
+            temp = temp->next;
+        }
+        cout << "NULL" << endl;
+            cout << "----------------------------------------------------\n\n";
+    }
+
+    void updateAnyPosition(int data, int pos)
+    {
+
+        if (pos < 0 || pos > count)
+        {
+            cout << "\n----------------------------------------------------\n";
+            cout << "Invalid Position!!!" << endl;
+            cout << "----------------------------------------------------\n\n";
+            return;
+        }
+
+        Node *temp = this->head;
+
+        for (int i = 0; i < pos; i++)
+        {
+            temp = temp->next;
+        }
+
+        temp->data = data;
+            cout << "\n----------------------------------------------------\n";
+            cout << "Node Updated..." << endl;
+            cout << "----------------------------------------------------\n\n";
+    }
+
+    void deleteStart()
+    {
+        Node *temp = this->head;
+
+        if (this->count > 0)
+        {
+            this->head = this->head->next;
+            this->count--;
+
+            delete temp;
+            temp = nullptr;
+
+            cout << "\n----------------------------------------------------\n";
+            cout << "First Node Deleted..." << endl;
+            cout << "----------------------------------------------------\n\n";
+        }
+        else
+        {
+            cout << "\n----------------------------------------------------\n";
+            cout << "LinkedList is Empty..." << endl;
+            cout << "----------------------------------------------------\n\n";
+        }
+    }
+
+    void deleteEnd()
+    {
+        if (this->head->next == nullptr)
+        {
+            delete this->head;
+            this->head = nullptr;
+            this->count--;
+            return;
+        }
+
+        if (this->count > 0)
+        {
+            Node *temp = this->head;
+
+            while (temp->next->next != NULL)
+            {
+                temp = temp->next;
+            }
+
+            delete temp->next;
+            temp->next = nullptr;
+            temp = nullptr;
+            this->count--;
+
+            cout << "\n----------------------------------------------------\n";
+            cout << "Last Node Deleted..." << endl;
+            cout << "----------------------------------------------------\n\n";
+        }
+        else
+        {
+            cout << "\n----------------------------------------------------\n";
+            cout << "LinkedList is Empty..." << endl;
+            cout << "----------------------------------------------------\n\n";
+        }
+    }
+
+    void deleteAnyPosition(int pos)
+    {
+        if (pos == 0)
+        {
+            deleteStart();
+            return;
+        }
+
+        if (pos >= count || pos < 0)
+        {
+            cout << "\n----------------------------------------------------\n";
+            cout << "Invalid Position!!!" << endl;
+            cout << "----------------------------------------------------\n\n";
+            return;
+        }
+
+        Node *temp = this->head;
+        for (int i = 0; i < pos - 1; i++)
+        {
+            temp = temp->next;
+        }
+
+        Node *nodeToDelete = temp->next;
+        temp->next = nodeToDelete->next;
+
+        delete nodeToDelete;
+        this->count--;
+
+        cout << "\n----------------------------------------------------\n";
+        cout << "Node Deleted..." << endl;
+        cout << "----------------------------------------------------\n\n";
+    }
+
+};
+
+int main()
+{
+    LinkedList list;
+    int choice;
+
+    do
+    {
+        cout << "Press 1. For Add To Data" << endl;
+        cout << "Press 2. For Display To Data" << endl;
+        cout << "Press 3. For Upadate To Data" << endl;
+        cout << "Press 4. For delete To First Data" << endl;
+        cout << "Press 5. For delete To last Data" << endl;
+        cout << "Press 0. For Exit This Program" << endl;
+        cout << "Enter your choice : ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+        {
+            int data;
+
+            cout << "Enter The Any Value Add : ";
+            cin >> data;
+
+            list.addStart(data);
+            break;
+        }
+        
+       
+        case 2:
+        {
+            list.display();
+            break;
+        }
+        case 3:
+        {
+            int data, position;
+
+            cout << "Enter the position to update : ";
+            cin >> position;
+
+            cout << "Enter any data to update : ";
+            cin >> data;
+
+            list.updateAnyPosition(data, position);
+            break;
+        }
+        case 4:
+        {
+            list.deleteStart();
+            break;
+        }
+        case 5:
+        {
+            list.deleteEnd();
+            break;
+        }
+        case 6:
+        {
+            int position;
+            cout << "Enter the position to delete : ";
+            cin >> position;
+            list.deleteAnyPosition(position);
+            break;
+        }
+
+        
+        case 0:
+        {
+            cout << "\n----------------------------------------------------\n";
+            cout << "Thank you for using Linkedlist....." << endl;
+            cout << "----------------------------------------------------\n\n";
+            break;
+        }
+        default:
+        {
+            cout << "\n----------------------------------------------------\n";
+            cout << "Invalide choice !" << endl;
+            cout << "----------------------------------------------------\n\n";
+            break;
+        }
+        }
+    } while (choice != 0);
+
+    return 0;
+}
