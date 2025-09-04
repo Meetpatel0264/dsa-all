@@ -1,0 +1,80 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// void selectionSort(vector<int>& arr);
+
+int main(){
+
+    int size;
+
+    cout << "Enter The Array Of Size : ";
+    cin >> size;
+
+    cout << endl;
+
+    vector<int> arr(size, 0);
+
+    for (int i = 0; i < size; i++)
+    {
+        cout << "Enter The Element Number :" ;
+        cin >> arr[i];
+    }
+    
+
+    cout << "\n-------------- Before -----------------" << endl;
+    for (int i = 0; i < size; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << "\n-------------------------------" << endl;
+    
+   
+     for(int i = 0; i < arr.size() - 1; i++){
+        for(int j = i+1; j < arr.size() ; j++){
+            int minIdx = i;
+            if(arr[j] > arr[minIdx]){
+                minIdx = j; 
+            }
+
+            int temp = arr[minIdx];
+            arr[minIdx] = arr[j];
+            arr[j] = temp;
+        }
+    }
+    
+    
+    cout << "\n-------------- After -----------------" << endl;
+    for (int i = 0; i < size; i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << "\n-------------------------------" << endl;
+    
+
+
+    return 0;
+}
+
+// void selectionSort(vector<int>& arr){
+
+//     for (int i = 0; i < arr.size() - 1; i++)
+//     {
+//         for (int j = i + 1; i < arr.size(); i++)
+//         {
+//             int midIDX = i;
+//             if (arr[j] > arr[midIDX])
+//             {
+//                 midIDX = arr[j];
+//             }
+
+//             int temp = arr[midIDX];
+//             arr[midIDX] = arr[j];
+//             arr[j] = temp;
+            
+//         }
+        
+//     }
+    
+// }
