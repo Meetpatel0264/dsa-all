@@ -1,0 +1,152 @@
+#include <iostream>
+using namespace std;
+
+class Employee {
+private:
+    int empID;
+    string name;
+    string designation;
+    float salary;
+
+public:
+    Employee() {
+        empID = 0;
+        name = "";
+        designation = "";
+        salary = 0.0;
+    }
+
+    void addEmployee(int id, string empName, string empDesig, float empSalary) {
+        empID = id;
+        name = empName;
+        designation = empDesig;
+        salary = empSalary;
+    }
+
+    void viewEmployee() const {
+        cout << "\n------------------------------\n";
+        cout << "Employee ID    : " << empID << endl;
+        cout << "Name           : " << name << endl;
+        cout << "Designation    : " << designation << endl;
+        cout << "Salary         : " << salary << endl;
+        cout << "------------------------------\n";
+    }
+
+    int getEmpID() const {
+        return empID;
+    }
+
+    float getSalary() const {
+        return salary;
+    }
+};
+
+int main() {
+    const int SIZE = 100;
+    Employee employees[SIZE];
+    int index = 0, choice;
+
+    do {
+        cout << "\n========== Employee Record System ==========\n";
+        cout << "1. Add Employee\n";
+        cout << "2. View All Employees\n";
+        cout << "3. Search Employee by ID\n";
+        cout << "4. Display Highest Paid Employee\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+
+        case 1: {
+            int id;
+            string name, designation;
+            float salary;
+
+            cout << "Enter Employee ID: ";
+            cin >> id;
+            cin.ignore(); // To handle newline character
+
+            cout << "Enter Name: ";
+            getline(cin, name);
+
+            cout << "Enter Designation: ";
+            getline(cin, designation);
+
+            cout << "Enter Salary: ";
+            cin >> salary;
+
+            employees[index].addEmployee(id, name, designation, salary);
+            index++;
+            cout << "Employee added successfully!\n";
+            break;
+        }
+
+        case 2: {
+            if (index == 0) {
+                cout << "No employees added yet.\n";
+            } else {
+                for (int i = 0; i < index; i++) {
+                    employees[i].viewEmployee();
+                }
+            }
+            break;
+        }
+
+        case 3: {
+            int searchID;
+            bool found = false;
+
+            cout << "Enter Employee ID to search: ";
+            cin >> searchID;
+
+            for (int i = 0; i < index; i++) {
+                if (employees[i].getEmpID() == searchID) {
+                    employees[i].viewEmployee();
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                cout << "Employee with ID " << searchID << " not found.\n";
+            }
+            break;
+        }
+
+        case 4: {
+            if (index == 0) {
+                cout << "No employees to evaluate.\n";
+                break;
+            }
+
+            float maxSalary = employees[0].getSalary();
+            int maxIndex = 0;
+
+            for (int i = 1; i < index; i++) {
+                if (employees[i].getSalary() > maxSalary) {
+                    maxSalary = employees[i].getSalary();
+                    maxIndex = i;
+                }
+            }
+
+            cout << "\nHighest Paid Employee:\n";
+            employees[maxIndex].viewEmployee();
+            break;
+        }
+
+        case 5: {
+            cout << "Thank you for using the Employee Record System.\n";
+            break;
+        }
+
+        default: {
+            cout << "Invalid choice. Please try again.\n";
+            break;
+        }
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
