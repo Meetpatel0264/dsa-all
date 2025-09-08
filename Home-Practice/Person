@@ -1,0 +1,89 @@
+#include <iostream>
+using namespace std;
+
+class Person {
+public:
+    string name;
+    int age;
+
+    Person() {}
+
+    Person(string n, int a) : name(n), age(a) {}
+
+    void display() {
+        cout << "Name: " << name << "\nAge: " << age << endl;
+    }
+};
+
+// Virtual inheritance to avoid diamond problem
+class Student : virtual public Person {
+public:
+    Student() {}
+
+    Student(string n, int a) : Person(n, a) {}
+
+    void study() {
+        cout << "Course: Full Stack Development" << endl;
+    }
+
+    void year() {
+        cout << "Duration: 1.5 years" << endl;
+    }
+};
+
+class Employee : virtual public Person {
+public:
+    Employee() {}
+
+    Employee(string n, int a) : Person(n, a) {}
+
+    void salary() {
+        cout << "Salary: 10 Lakh" << endl;
+    }
+
+    void timing() {
+        cout << "Working Hours: 9 AM to 3 PM" << endl;
+    }
+};
+
+class PartTimePerson : public Student, public Employee {
+public:
+    PartTimePerson(string n, int a) {
+        name = n;
+        age = a;
+    }
+
+    void displayProfile() {
+        cout << "--- Part-Time Person Profile ---" << endl;
+        display(); // From Person
+        study();   // From Student
+        year();    // From Student
+        salary();  // From Employee
+        timing();  // From Employee
+        cout << "-------------------------------\n" << endl;
+    }
+};
+
+int main() {
+    // Student
+    Student p1("Meet Patel", 22);
+    cout << "--- Student Profile ---" << endl;
+    p1.display();
+    p1.study();
+    p1.year();
+    cout << "------------------------\n" << endl;
+
+    // Employee
+    Employee e1("Raj Shah", 30);
+    cout << "--- Employee Profile ---" << endl;
+    e1.display();
+    e1.salary();
+    e1.timing();
+    cout << "------------------------\n" << endl;
+
+    // Part-Time Person
+    PartTimePerson pt1("Karan Joshi", 25);
+    pt1.displayProfile();
+
+    return 0;
+}
