@@ -1,0 +1,93 @@
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+void printArray(vector<int> &);
+void quickSort(vector<int> &, int, int);
+int partition(vector<int> &, int, int);
+
+int main() {
+    int size;
+
+    cout << "Enter the length of Array : ";
+    cin >> size;
+
+    vector<int> arr(size, 0);
+
+    for (int i = 0; i < size; i++) {
+        cout << "Enter any value : ";
+        cin >> arr[i];
+    }
+
+    cout << "---------- Before ----------" << endl;
+    printArray(arr);
+    cout << endl;
+
+    quickSort(arr, 0, size - 1);
+
+    cout << "---------- After ----------" << endl;
+    printArray(arr);
+
+    return 0;
+}
+
+void printArray(vector<int>& arr) {
+    for (int val : arr) {
+        cout << val << " ";
+    }
+}
+
+void quickSort(vector<int>& arr, int low, int high) {
+    if (low >= high) {
+        return;
+    }
+
+    int idx = partition(arr, low, high);
+
+    // For the left side array 
+    quickSort(arr, low, idx - 1);
+    
+    // For the right side array 
+    quickSort(arr, idx + 1, high);
+}
+
+int partition(vector<int>& arr, int low, int high) {
+    int pivot = arr[low];
+    int count = 0;
+
+    for (int i = low + 1; i <= high; i++) {
+        if(arr[i] < pivot) {
+            count++;
+        }
+    }
+
+    int pivotIdx = low + count;
+
+    int temp = arr[pivotIdx];
+    arr[pivotIdx] = arr[low];
+    arr[low] = temp;
+
+    int left = low, right = high;
+
+    while (left < pivotIdx && right > pivotIdx) {
+        while (arr[left] < arr[pivotIdx]) {
+            left++;
+        }
+
+        while (arr[right] > arr[pivotIdx]) {
+            right--;
+        }
+        
+        if (left < pivotIdx && right > pivotIdx) {
+            int temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+
+            left++;
+            right--;
+        }
+    }
+    
+    return pivotIdx;
+}
