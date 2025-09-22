@@ -1,269 +1,297 @@
 #include <iostream>
-
+#include <vector>
 using namespace std;
 
-class Node
-{
+class Node {
 public:
     int data;
-    Node *next;
-
-    Node(int data)
-    {
+    Node* next;
+    Node(int data) {
         this->data = data;
-        this->next = NULL;
+        next = nullptr;
     }
 };
 
 class LinkedList {
-public:
-    Node *head;
+private:
+    Node* head;
     int count;
-
-    LinkedList()
-    {
-        this->head = NULL;
-        this->count = 0;
+public:
+    LinkedList() {
+        head = nullptr;
+        count = 0;
     }
 
-    void addStart(int data)
-    {
-        Node *newNode = new Node(data);
+    void addAtBegin(int data) {
+        Node* newNode = new Node(data);
+        newNode->next = head;
+        head = newNode;
+        count++;
 
-        newNode->next = this->head;
-        this->head = newNode;
-        this->count++;
-
-        cout << "\n----------------------------------------------------\n";
-        cout << "New Node Added..." << endl;
-        cout << "----------------------------------------------------\n\n";
+        cout << "\n---------------------------------------\n";
+        cout << "Add Data successfully" << endl;
+        cout << "---------------------------------------\n";
     }
 
-    void display()
-    {
-
-        if(count <= 0){
-            cout << "\n----------------------------------------------------\n";
-            cout << "LinkedList is Empty..." << endl;
-            cout << "----------------------------------------------------\n\n";
-
-            return;
-        }
-        Node *temp = this->head;
-
-            cout << "\n----------------------------------------------------\n";
-        while (temp != NULL)
-        {
-            cout << temp->data << "->";
-            temp = temp->next;
-        }
-        cout << "NULL" << endl;
-            cout << "----------------------------------------------------\n\n";
-    }
-
-    void updateAnyPosition(int data, int pos)
-    {
-
-        if (pos < 0 || pos > count)
-        {
-            cout << "\n----------------------------------------------------\n";
-            cout << "Invalid Position!!!" << endl;
-            cout << "----------------------------------------------------\n\n";
+    void deleteAtAny(int pos) {
+        if (count == 0) {
+            cout << "\n---------------------------------------\n";
+            cout << "List is Empty!" << endl;
+            cout << "---------------------------------------\n";
             return;
         }
 
-        Node *temp = this->head;
-
-        for (int i = 0; i < pos; i++)
-        {
-            temp = temp->next;
+        if (pos < 0 || pos >= count) {
+            cout << "\n---------------------------------------\n";
+            cout << "Invalid Position!" << endl;
+            cout << "---------------------------------------\n";
+            return;
         }
 
-        temp->data = data;
-            cout << "\n----------------------------------------------------\n";
-            cout << "Node Updated..." << endl;
-            cout << "----------------------------------------------------\n\n";
-    }
+        Node* temp = head;
 
-    void deleteStart()
-    {
-        Node *temp = this->head;
-
-        if (this->count > 0)
-        {
-            this->head = this->head->next;
-            this->count--;
-
+        if (pos == 0) {
+            head = head->next;
             delete temp;
-            temp = nullptr;
-
-            cout << "\n----------------------------------------------------\n";
-            cout << "First Node Deleted..." << endl;
-            cout << "----------------------------------------------------\n\n";
-        }
-        else
-        {
-            cout << "\n----------------------------------------------------\n";
-            cout << "LinkedList is Empty..." << endl;
-            cout << "----------------------------------------------------\n\n";
-        }
-    }
-
-    void deleteEnd()
-    {
-        if (this->head->next == nullptr)
-        {
-            delete this->head;
-            this->head = nullptr;
-            this->count--;
-            return;
-        }
-
-        if (this->count > 0)
-        {
-            Node *temp = this->head;
-
-            while (temp->next->next != NULL)
-            {
+        } else {
+            Node* prev = nullptr;
+            for (int i = 0; i < pos; i++) {
+                prev = temp;
                 temp = temp->next;
             }
-
-            delete temp->next;
-            temp->next = nullptr;
-            temp = nullptr;
-            this->count--;
-
-            cout << "\n----------------------------------------------------\n";
-            cout << "Last Node Deleted..." << endl;
-            cout << "----------------------------------------------------\n\n";
+            prev->next = temp->next;
+            delete temp;
         }
-        else
-        {
-            cout << "\n----------------------------------------------------\n";
-            cout << "LinkedList is Empty..." << endl;
-            cout << "----------------------------------------------------\n\n";
-        }
+        count--;
+
+        cout << "\n---------------------------------------\n";
+        cout << "Deleted Data successfully" << endl;
+        cout << "---------------------------------------\n";
     }
 
-    void deleteAnyPosition(int pos)
-    {
-        if (pos == 0)
-        {
-            deleteStart();
+    void update(int pos, int val) {
+        if (count == 0 || pos < 0 || pos >= count) {
+            cout << "\n---------------------------------------\n";
+            cout << "Invalid position or list is empty!" << endl;
+            cout << "---------------------------------------\n";
             return;
         }
-
-        if (pos >= count || pos < 0)
-        {
-            cout << "\n----------------------------------------------------\n";
-            cout << "Invalid Position!!!" << endl;
-            cout << "----------------------------------------------------\n\n";
-            return;
-        }
-
-        Node *temp = this->head;
-        for (int i = 0; i < pos - 1; i++)
-        {
+        Node* temp = head;
+        for (int i = 0; i < pos; i++) {
             temp = temp->next;
         }
+        temp->data = val;
 
-        Node *nodeToDelete = temp->next;
-        temp->next = nodeToDelete->next;
-
-        delete nodeToDelete;
-        this->count--;
-
-        cout << "\n----------------------------------------------------\n";
-        cout << "Node Deleted..." << endl;
-        cout << "----------------------------------------------------\n\n";
+        cout << "\n---------------------------------------\n";
+        cout << "Upadate Data successfully" << endl;
+        cout << "---------------------------------------\n";
     }
-
+    
+    void display() {
+        if (count == 0) {
+            cout << "\n---------------------------------------\n";
+            cout << "List is Empty!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+        Node* temp = head;
+        cout << "\nLinked List: ";
+        while (temp) {
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        }
+        cout << "NULL\n";
+    }
 };
 
-int main()
-{
-    LinkedList list;
-    int choice;
+void mergeSort(vector<int>& arr, int low, int high);
+void merge(vector<int>& arr, int low, int mid, int high);
+void displayVector(const vector<int>& arr);
+int binarySearch(const vector<int>& arr, int low, int high, int key);
 
-    do
-    {
-        cout << "Press 1. For Add To Data" << endl;
-        cout << "Press 2. For Display To Data" << endl;
-        cout << "Press 3. For Upadate To Data" << endl;
-        cout << "Press 4. For delete To First Data" << endl;
-        cout << "Press 5. For delete To last Data" << endl;
-        cout << "Press 0. For Exit This Program" << endl;
-        cout << "Enter your choice : ";
+int main() {
+    int choice, subChoice;
+    LinkedList list;
+
+    do {
+        cout << "-------Main Menu--------" << endl;
+        cout << "1. Linked List" << endl;
+        cout << "2. Merge Sort" << endl;
+        cout << "3. Binary Search" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
         cin >> choice;
 
-        switch (choice)
-        {
-        case 1:
-        {
-            int data;
 
-            cout << "Enter The Any Value Add : ";
-            cin >> data;
+        switch (choice) {
+            case 1: {
+                do {
+                    cout << "\n-------Linked List Menu-----" <<endl;
+                    cout << "1. Add at Beginning" << endl;
+                    cout << "2. Delete at Postion" << endl;
+                    cout << "3. Update at Position" << endl;
+                    cout << "4. Display List" << endl;
+                    cout << "5. Exit from LinkedList Menu." << endl;
+                    cout << "Enter your choice: ";
+                    cin >> subChoice;
 
-            list.addStart(data);
-            break;
-        }
-        
-       
-        case 2:
-        {
-            list.display();
-            break;
-        }
-        case 3:
-        {
-            int data, position;
 
-            cout << "Enter the position to update : ";
-            cin >> position;
+                    switch (subChoice) {
+                        case 1: {
+                            int data;
+                            cout << "Enter value to insert : ";
+                            cin >> data;
+                            list.addAtBegin(data);
+                            break;
+                        }
+                        
+                        case 2: {
+                            int pos;
+                            cout << "Enter index to delete : ";
+                            cin >> pos;
+                            list.deleteAtAny(pos);
+                            break;
+                        }
 
-            cout << "Enter any data to update : ";
-            cin >> data;
+                        case 3: {
+                            int pos, val;
+                            cout << "Enter index to update : ";
+                            cin >> pos;
+                            cout << "Enter new value : ";
+                            cin >> val;
+                            list.update(pos, val);
+                            break;
+                        }
+                        case 4:
+                            list.display();
+                            break;
+                        case 5:
+                            cout << "Thank you!" << endl;
+                            break;
+                        default:
+                            cout << "\nInvalid Choice!!!" << endl;
+                    }
+                } while (subChoice != 5);
+                break;
+            }
 
-            list.updateAnyPosition(data, position);
-            break;
-        }
-        case 4:
-        {
-            list.deleteStart();
-            break;
-        }
-        case 5:
-        {
-            list.deleteEnd();
-            break;
-        }
-        case 6:
-        {
-            int position;
-            cout << "Enter the position to delete : ";
-            cin >> position;
-            list.deleteAnyPosition(position);
-            break;
-        }
 
-        
-        case 0:
-        {
-            cout << "\n----------------------------------------------------\n";
-            cout << "Thank you for using Linkedlist....." << endl;
-            cout << "----------------------------------------------------\n\n";
-            break;
+            case 2: {
+                int size;
+                cout << "Enter array size : ";
+                cin >> size;
+                vector<int> arr(size);
+
+
+                for (int i = 0; i < size; i++) {
+                    cout << "Enter element " << i + 1 << ": ";
+                    cin >> arr[i];
+                }
+
+
+                cout << "Before sort : ";
+                displayVector(arr);
+                mergeSort(arr, 0, size - 1);
+                cout << "After sort : ";
+                displayVector(arr);
+                break;
+            }
+
+            case 3: {
+                int size, key;
+                cout << "Enter array size : ";
+                cin >> size;
+                vector<int> arr(size);
+
+
+                for (int i = 0; i < size; i++) {
+                    cout << "Enter element " << i + 1 << ": ";
+                    cin >> arr[i];
+                }
+
+                mergeSort(arr, 0, size - 1);
+                cout << "Sorted array : ";
+                displayVector(arr);
+
+
+                cout << "Enter key to search : ";
+                cin >> key;
+
+
+                int index = binarySearch(arr, 0, size - 1, key);
+                if (index != -1) {
+                    cout << "Element found at index :" << index << endl;
+                } else {
+                    cout << "Element not found!" << endl;
+                }
+                break;
+            }
+
+            case 4:
+                cout << "Thank you!" << endl;
+                break;
+
+            default:
+                cout << "Invalid choice!" << endl;
         }
-        default:
-        {
-            cout << "\n----------------------------------------------------\n";
-            cout << "Invalide choice !" << endl;
-            cout << "----------------------------------------------------\n\n";
-            break;
-        }
-        }
-    } while (choice != 0);
+    } while (choice != 4);
 
     return 0;
+}
+
+void mergeSort(vector<int>& arr, int low, int high) {
+    if (low >= high) return;
+    
+    int mid = (low + high) / 2;
+    mergeSort(arr, low, mid);
+    mergeSort(arr, mid + 1, high);
+    merge(arr, low, mid, high);
+}
+
+void merge(vector<int>& arr, int low, int mid, int high) {
+    vector<int> temp;
+    int left = low, right = mid + 1;
+
+    while (left <= mid && right <= high) {
+        if (arr[left] < arr[right]) {
+            temp.push_back(arr[left++]);
+        } else {
+            temp.push_back(arr[right++]);
+        }
+    }
+
+    while (left <= mid) {
+        temp.push_back(arr[left++]);
+    }
+
+    while (right <= high) {
+        temp.push_back(arr[right++]);
+    }
+
+    for (int i = low; i <= high; i++) {
+        arr[i] = temp[i - low];
+    }
+}
+
+void displayVector(const vector<int>& arr) {
+    for (int val : arr) {
+        cout << val << " ";
+    }
+    cout << endl;
+}
+
+int binarySearch(const vector<int>& arr, int low, int high, int key) {
+    if (low > high) return -1;
+
+    int mid = (low + high) / 2;
+
+    if (arr[mid] == key) {
+        return mid;
+    } 
+    else if (key < arr[mid]) {
+        return binarySearch(arr, low, mid - 1, key);
+    } 
+    else {
+        return binarySearch(arr, mid + 1, high, key);
+    }
 }
