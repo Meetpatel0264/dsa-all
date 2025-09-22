@@ -295,3 +295,303 @@ int binarySearch(const vector<int>& arr, int low, int high, int key) {
         return binarySearch(arr, mid + 1, high, key);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Stack {
+private:
+    vector<int> stk;
+
+public:
+    void push(int data) {
+        stk.push_back(data);
+        cout << "\n---------------------------------------\n";
+        cout << "Pushed data successfully" << endl;
+        cout << "---------------------------------------\n";
+    }
+
+    void pop() {
+        if (stk.empty()) {
+            cout << "\n---------------------------------------\n";
+            cout << "Stack is Empty!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+
+        stk.pop_back();
+        cout << "\n---------------------------------------\n";
+        cout << "Popped data successfully" << endl;
+        cout << "---------------------------------------\n";
+    }
+
+    void update(int pos, int val) {
+        if (pos < 0 || pos >= stk.size()) {
+            cout << "\n---------------------------------------\n";
+            cout << "Invalid position!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+
+        stk[stk.size() - 1 - pos] = val; // Top is at the end
+        cout << "\n---------------------------------------\n";
+        cout << "Updated data successfully" << endl;
+        cout << "---------------------------------------\n";
+    }
+
+    void peek() {
+        if (stk.empty()) {
+            cout << "\n---------------------------------------\n";
+            cout << "Stack is Empty!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+
+        cout << "\nTop element: " << stk.back() << endl;
+    }
+
+    void display() {
+        if (stk.empty()) {
+            cout << "\n---------------------------------------\n";
+            cout << "Stack is Empty!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+
+        cout << "\nStack (Top to Bottom): ";
+        for (int i = stk.size() - 1; i >= 0; i--) {
+            cout << stk[i] << " ";
+        }
+        cout << "\n";
+    }
+};
+
+// Merge Sort and Binary Search Functions
+void mergeSort(vector<int>& arr, int low, int high);
+void merge(vector<int>& arr, int low, int mid, int high);
+void displayVector(const vector<int>& arr);
+int binarySearch(const vector<int>& arr, int low, int high, int key);
+
+// Main Function
+int main() {
+    int choice, subChoice;
+    Stack stack;
+
+    do {
+        cout << "-------Main Menu--------" << endl;
+        cout << "1. Stack" << endl;
+        cout << "2. Merge Sort" << endl;
+        cout << "3. Binary Search" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                do {
+                    cout << "\n-------Stack Menu-----" << endl;
+                    cout << "1. Push" << endl;
+                    cout << "2. Pop" << endl;
+                    cout << "3. Update at Position (from top)" << endl;
+                    cout << "4. Peek (Top Element)" << endl;
+                    cout << "5. Display Stack" << endl;
+                    cout << "6. Exit from Stack Menu" << endl;
+                    cout << "Enter your choice: ";
+                    cin >> subChoice;
+
+                    switch (subChoice) {
+                        case 1: {
+                            int data;
+                            cout << "Enter value to push: ";
+                            cin >> data;
+                            stack.push(data);
+                            break;
+                        }
+
+                        case 2:
+                            stack.pop();
+                            break;
+
+                        case 3: {
+                            int pos, val;
+                            cout << "Enter position from top to update: ";
+                            cin >> pos;
+                            cout << "Enter new value: ";
+                            cin >> val;
+                            stack.update(pos, val);
+                            break;
+                        }
+
+                        case 4:
+                            stack.peek();
+                            break;
+
+                        case 5:
+                            stack.display();
+                            break;
+
+                        case 6:
+                            cout << "Thank you!" << endl;
+                            break;
+
+                        default:
+                            cout << "\nInvalid Choice!!!" << endl;
+                    }
+                } while (subChoice != 6);
+                break;
+            }
+
+            case 2: {
+                int size;
+                cout << "Enter array size : ";
+                cin >> size;
+                vector<int> arr(size);
+
+                for (int i = 0; i < size; i++) {
+                    cout << "Enter element " << i + 1 << ": ";
+                    cin >> arr[i];
+                }
+
+                cout << "Before sort : ";
+                displayVector(arr);
+                mergeSort(arr, 0, size - 1);
+                cout << "After sort : ";
+                displayVector(arr);
+                break;
+            }
+
+            case 3: {
+                int size, key;
+                cout << "Enter array size : ";
+                cin >> size;
+                vector<int> arr(size);
+
+                for (int i = 0; i < size; i++) {
+                    cout << "Enter element " << i + 1 << ": ";
+                    cin >> arr[i];
+                }
+
+                mergeSort(arr, 0, size - 1);
+                cout << "Sorted array : ";
+                displayVector(arr);
+
+                cout << "Enter key to search : ";
+                cin >> key;
+
+                int index = binarySearch(arr, 0, size - 1, key);
+                if (index != -1) {
+                    cout << "Element found at index: " << index << endl;
+                } else {
+                    cout << "Element not found!" << endl;
+                }
+                break;
+            }
+
+            case 4:
+                cout << "Thank you!" << endl;
+                break;
+
+            default:
+                cout << "Invalid choice!" << endl;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
+
+// Merge Sort Functions
+void mergeSort(vector<int>& arr, int low, int high) {
+    if (low >= high) return;
+
+    int mid = (low + high) / 2;
+    mergeSort(arr, low, mid);
+    mergeSort(arr, mid + 1, high);
+    merge(arr, low, mid, high);
+}
+
+void merge(vector<int>& arr, int low, int mid, int high) {
+    vector<int> temp;
+    int left = low, right = mid + 1;
+
+    while (left <= mid && right <= high) {
+        if (arr[left] < arr[right]) {
+            temp.push_back(arr[left++]);
+        } else {
+            temp.push_back(arr[right++]);
+        }
+    }
+
+    while (left <= mid) {
+        temp.push_back(arr[left++]);
+    }
+
+    while (right <= high) {
+        temp.push_back(arr[right++]);
+    }
+
+    for (int i = low; i <= high; i++) {
+        arr[i] = temp[i - low];
+    }
+}
+
+// Display vector
+void displayVector(const vector<int>& arr) {
+    for (int val : arr) {
+        cout << val << " ";
+    }
+    cout << endl;
+}
+
+// Binary Search
+int binarySearch(const vector<int>& arr, int low, int high, int key) {
+    if (low > high) return -1;
+
+    int mid = (low + high) / 2;
+
+    if (arr[mid] == key) {
+        return mid;
+    } else if (key < arr[mid]) {
+        return binarySearch(arr, low, mid - 1, key);
+    } else {
+        return binarySearch(arr, mid + 1, high, key);
+    }
+}
+
