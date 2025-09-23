@@ -1,0 +1,434 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Node{
+    public:
+        int data;
+        Node *next;
+
+    Node(int data){
+        this->data= data;
+        Node *next = NULL;
+    }
+};
+
+class Stack{
+    private:
+        vector<int> stack;
+
+    
+public:
+    void push(int data) {
+        stack.push_back(data);
+        cout << "\n---------------------------------------\n";
+        cout << "Push data successfully" << endl;
+        cout << "---------------------------------------\n";
+    }
+
+    void pop() {
+        if (stack.empty()) {
+            cout << "\n---------------------------------------\n";
+            cout << "Stack is Empty!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+
+        stack.pop_back();
+        cout << "\n---------------------------------------\n";
+        cout << "Pop data successfully" << endl;
+        cout << "---------------------------------------\n";
+    }
+
+    void update(int pos, int val) {
+        if (pos < 0 || pos >= stack.size()) {
+            cout << "\n---------------------------------------\n";
+            cout << "Invalid position!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+    }
+
+    void display() {
+        if (stack.empty()) {
+            cout << "\n---------------------------------------\n";
+            cout << "Stack is Empty!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+
+        cout << "\nStack : ";
+        for (int i = stack.size() - 1; i >= 0; i--) {
+            cout << stack[i] << " -> ";
+        }
+        cout << "\n";
+    }
+
+};
+
+class LinkedList{
+    private:
+        int count;
+        Node* head;
+
+    public:
+        LinkedList() {
+            head = NULL;
+            count = 0;
+        }
+
+    void addAtStart(int data) {
+        Node* newNode = new Node(data);
+        newNode->next = head;
+        head = newNode;
+        count++;
+
+        cout << "\n---------------------------------------\n";
+        cout << "Add Data successfully" << endl;
+        cout << "---------------------------------------\n\n";
+    }
+
+    void addAtEnd(int data) {
+        Node* newNode = new Node(data);
+        newNode->next = head;
+        head = newNode;
+        count++;
+
+        cout << "\n---------------------------------------\n";
+        cout << "Add Data successfully" << endl;
+        cout << "---------------------------------------\n";
+    }
+
+    void deleteAtAny(int pos) {
+        if (count == 0) {
+            cout << "\n---------------------------------------\n";
+            cout << "List is Empty!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+
+        if (pos < 0 || pos >= count) {
+            cout << "\n---------------------------------------\n";
+            cout << "Invalid Position!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+
+        Node* temp = head;
+
+        if (pos == 0) {
+            head = head->next;
+            delete temp;
+        } else {
+            Node* prev = nullptr;
+            for (int i = 0; i < pos; i++) {
+                prev = temp;
+                temp = temp->next;
+            }
+            prev->next = temp->next;
+            delete temp;
+        }
+        count--;
+
+        cout << "\n---------------------------------------\n";
+        cout << "Deleted Data successfully" << endl;
+        cout << "---------------------------------------\n";
+    }
+
+    void display() {
+        if (count == 0) {
+            cout << "\n---------------------------------------\n";
+            cout << "List is Empty!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+        Node* temp = head;
+        cout << "\nLinked List: ";
+        while (temp) {
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        }
+        cout << "NULL\n";
+    }
+
+    void updateatAny(int pos, int val) {
+        if (count == 0) {
+            cout << "\n---------------------------------------\n";
+            cout << "List is Empty!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+        if (pos < 0 || pos >= count) {
+            cout << "\n---------------------------------------\n";
+            cout << "Invalid position!!!" << endl;
+            cout << "---------------------------------------\n";
+            return;
+        }
+        Node* temp = head;
+        for (int i = 0; i < pos; i++) {
+            temp = temp->next;
+        }
+        temp->data = val;
+
+        cout << "\n---------------------------------------\n";
+        cout << "Upadate Data successfully" << endl;
+        cout << "---------------------------------------\n";
+    }
+        
+};
+
+void printArr(vector<int> &);
+void quickSort(vector<int> & ,int ,int);
+int partiton(vector<int> & ,int ,int);
+
+int main(){
+
+    int choice;
+    int choice2;
+    int choice3;
+    LinkedList list;
+
+    do
+    {
+        cout << "Press 1. For Linkdlist " << endl;
+        cout << "Press 2. For Stack " << endl;
+        cout << "Press 3. For  Quick Sort" << endl;
+        
+        cout << "Enter The Choice : ";
+        cin >> choice;
+        
+        switch (choice){
+            case 1:{
+            
+            do
+            {
+                cout << "Press 1. For Add at Start " << endl;
+                cout << "Press 2. For Add at End " << endl;
+                cout << "Press 3. For Upadate Any Position " << endl;
+                cout << "Press 4. For Delete Any Position " << endl;
+                cout << "Press 5. For Display " << endl;
+                cout << "Press 0. For Exit " << endl;
+
+                cout << "Enter The Choice : ";
+                cin >> choice2;
+
+                switch (choice2)
+                {
+                case 1:{
+                    int data;
+                    cout << "Enter value to insert : ";
+                    cin >> data;
+                    list.addAtStart(data);
+                    break;
+                } 
+
+                case 2:{
+                    int data;
+
+                    cout << "Enter value to insert : ";
+                    cin >> data;
+
+                    list.addAtEnd(data);
+
+                    break;
+                }
+                
+                case 3:{
+                    int pos, val;
+
+                    cout << "Enter index to update : ";
+                    cin >> pos;
+
+                    cout << "Enter new value : ";
+                    cin >> val;
+
+                    list.updateatAny(pos, val);
+
+                    break;
+                }
+                
+                case 4:{
+                    int pos;
+
+                    cout << "Enter index to update : ";
+                    cin >> pos;
+
+                    list.deleteAtAny(pos);
+
+                    break;
+                }
+                
+                case 5:{
+                    list.display();
+                    break;
+                }
+
+                case 0:{
+                    break;
+                }
+                
+                
+                default:{
+                    cout << "Invalide Choice!!!" << endl;
+                    break;
+                }
+                }
+                
+            } while (choice2 != 0);
+
+            break;
+        }
+
+        case 2:{
+            Stack s1;
+            do
+            {
+                cout << "Press 1. For Push " << endl;
+                cout << "Press 2. For Pop" << endl;
+                cout << "Press 3. For Upadate" << endl;
+                cout << "Press 4. For Display" << endl;
+                cout << "Press 0. Exit " << endl;
+
+                cout << "Enter The Choice : ";
+                cin >> choice3;
+
+                switch (choice3)
+                {
+                case 1:{
+                    int data;
+
+                    cout << "Enter value to push: ";
+                    cin >> data;
+
+                    s1.push(data);
+
+                    break;
+                }
+                case 2:{
+
+                    s1.pop();
+                    break;
+                }
+                case 3:{
+                    int pos, val;
+
+                    cout << "Enter position from top to update: ";
+                    cin >> pos;
+
+                    cout << "Enter new value: ";
+                    cin >> val;
+
+                    s1.update(pos, val);
+
+                    break;
+                }
+                case 4:{
+                    
+                    s1.display();
+                    break;
+                }
+                case 0:{
+                    break;
+                }
+                default:{
+
+                    cout << "Invalide Choice!!!" << endl;
+
+                    break;
+                }
+
+                }
+                
+            } while (choice3 != 0);
+            
+
+            break;
+        }
+
+        case 3:{
+        int size;
+
+        cout << "Enter the Size : ";
+        cin >> size;
+
+        vector<int> arr(size ,0);
+
+        for(int i = 0 ;i < arr.size() ;i++){
+            cout << "Enter the value : ";
+            cin >> arr[i];
+        }
+
+        cout << " BEFORE " << endl;
+        printArr(arr);
+
+        quickSort(arr ,0 ,size -1);
+
+        cout << " AFTER " << endl;
+        printArr(arr);
+
+            break;
+        }
+        
+        default:
+            break;
+        }
+    } while (choice != 0);
+    
+
+    return 0;
+}
+
+
+void printArr(vector<int> &arr){
+    for(int val : arr){
+        cout << val << " ";
+    }
+    cout << endl;
+}
+
+void quickSort(vector<int> &arr ,int start ,int end){
+    if(start >= end){
+        return;
+    }
+
+    int idx = partiton(arr ,start ,end);
+
+    quickSort(arr ,start ,idx -1);
+    quickSort(arr ,idx + 1 ,end);
+}
+
+int partiton(vector<int> & arr ,int start ,int end){
+    int pivot = arr[start];
+    int count = 0;
+
+    for(int i = start ;i <= end ;i++){
+        if(arr[i] < pivot){
+            count++;
+        }
+    }
+
+    int pivotIdx = start + count;
+
+    int temp = arr[pivotIdx];
+    arr[pivotIdx] = arr[start];
+    arr[start] = temp;
+
+    int i = start ,j = end;
+
+    while(i < pivotIdx && j > pivotIdx){
+        while(arr[i] < pivot){
+            i++;
+        }
+        while(arr[j] > pivot){
+            j--;
+        }
+        if(i < pivotIdx && j > pivotIdx){
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+
+    return pivotIdx;
+}
