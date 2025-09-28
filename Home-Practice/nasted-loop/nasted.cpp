@@ -19,7 +19,7 @@ int main(){
         cout << endl;
     }
 
-    // cout << "After Number :" << num;
+    cout << "After Number :" << num;
 
     return 0;
 }
